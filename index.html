@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+    <nav class="menu" id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <button id="menuClose">×</button>
+    </nav>
+
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="screen" id="weatherScreen">
+        <div class="header">
+            <div class="icons">
+                <i class="fas fa-plus" id="addCityIcon"></i>
+            </div>
+        </div>
+        <div class="content">
+            <div class="weather">
+                <h1 id="temperature">35°C</h1>
+                <p id="weatherCondition">Clear 37°/28°</p>
+                <p id="aqi">AQI 45</p>
+            </div>
+            <div class="forecast">
+                <h2>5-day forecast</h2>
+                <!-- Example forecast data -->
+                <div class="day">
+                    <p>Today Clear</p>
+                    <p class="temp">37°/28°</p>
+                </div>
+                <div class="day">
+                    <p>Tomorrow Thunderstorm</p>
+                    <p class="temp">35°/28°</p>
+                </div>
+                <div class="day">
+                    <p>Sun Cloudy</p>
+                    <p class="temp">35°/28°</p>
+                </div>
+            </div>
+            <div class="aqi">
+                <h2>Air Quality Index</h2>
+                <p>45 Good</p>
+                <p>Air quality is good. A perfect day for a walk!</p>
+                <div class="details">
+                    <div>
+                        <p>45.7</p>
+                        <p>PM2.5</p>
+                    </div>
+                    <div>
+                        <p>31.8</p>
+                        <p>PM10</p>
+                    </div>
+                    <div>
+                        <p>7.6</p>
+                        <p>SO₂</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-box">
+            <input type="text" id="locationSearch" placeholder="Enter city, state, or country">
+            <button id="searchBtn">Search</button>
+        </div>
+    </div>
+</body>
+
+</html>
