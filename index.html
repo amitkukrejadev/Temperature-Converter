@@ -1,85 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            position: relative;
+            background-image: url('https://cdn.pixabay.com/photo/2017/12/12/10/26/phone-3021346_1280.png'); /* Smartphone frame image */
+            background-size: contain; /* Contain the image within the view */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+        }
+        .container {
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* Adjust padding for responsiveness */
+            width: 90%; /* Make it responsive */
+            max-width: 320px; /* Max width for the container */
+            text-align: center;
+            position: absolute; /* Position it within the smartphone frame */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the container */
+            z-index: 1; /* Bring container in front of the background */
+        }
+        .header {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap; /* Allow items to wrap for responsiveness */
+        }
+        .input-group label {
+            color: #666666;
+            font-size: 14px;
+        }
+        .input-group div, .input-group select {
+            border: none;
+            border-bottom: 2px solid #dddddd;
+            font-size: 18px;
+            text-align: center;
+            width: 100%; /* Full width for responsiveness */
+            max-width: 120px; /* Max width for individual input */
+            background: transparent;
+            color: #333333;
+            margin: 0 5px; /* Margin between input fields */
+        }
+        .input-group select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding: 5px;
+        }
+        .input-group select:focus, .input-group div:focus {
+            outline: none;
+            border-bottom: 2px solid #007bff;
+        }
+        .result {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .convert-button {
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%; /* Full width for button */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .convert-button:hover {
+            background-color: #0056b3;
+        }
+        .icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #007bff;
+        }
+        .time {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            color: #ffffff; /* White color for better visibility */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 5px 10px;
+            border-radius: 10px; /* Rounded corners */
+        }
+        .input-icon {
+            margin-right: 10px; /* Space between icon and input field */
+            color: #007bff; /* Icon color */
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px; /* Position it near the bottom */
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            display: flex; /* Flex container for social icons */
+            justify-content: center; /* Center the icons */
+            gap: 15px; /* Space between icons */
+            z-index: 1; /* Bring footer above background */
+        }
+        .footer a {
+            color: #007bff; /* Icon color */
+            font-size: 24px; /* Size of icons */
+            transition: color 0.3s; /* Smooth color transition */
+        }
+        .footer a:hover {
+            color: #0056b3; /* Change color on hover */
+        }
+    </style>
 </head>
-
 <body>
-    <nav class="menu" id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-        </ul>
-        <button id="menuClose">×</button>
-    </nav>
-
-    <div class="menu-toggle" id="menuToggle">
-        <i class="fas fa-bars"></i>
-    </div>
-
-    <div class="screen" id="weatherScreen">
-        <div class="header">
-            <div class="icons">
-                <i class="fas fa-plus" id="addCityIcon"></i>
+    <div class="time" id="timeDisplay">12:00 PM</div> <!-- Time display -->
+    <div class="container">
+        <i class="fas fa-thermometer-half icon"></i> <!-- Thermometer icon in the header -->
+        <div class="header">Temperature Converter</div>
+        <div class="input-group">
+            <div>
+                <label for="degreesInput">Degrees</label>
+                <i class="fas fa-temperature-high input-icon"></i> <!-- Temperature icon -->
+                <input type="number" id="degreesInput" value="72" style="width: 100%; border: none; border-bottom: 2px solid #dddddd; font-size: 18px; text-align: center; background: transparent; color: #333333;">
+            </div>
+            <div>
+                <label for="typeSelect">Type</label>
+                <i class="fas fa-exchange-alt input-icon"></i> <!-- Exchange icon -->
+                <select id="typeSelect">
+                    <option value="Fahrenheit">Fahrenheit to Celsius</option>
+                    <option value="Celsius">Celsius to Fahrenheit</option>
+                </select>
             </div>
         </div>
-        <div class="content">
-            <div class="weather">
-                <h1 id="temperature">35°C</h1>
-                <p id="weatherCondition">Clear 37°/28°</p>
-                <p id="aqi">AQI 45</p>
-            </div>
-            <div class="forecast">
-                <h2>5-day forecast</h2>
-                <!-- Example forecast data -->
-                <div class="day">
-                    <p>Today Clear</p>
-                    <p class="temp">37°/28°</p>
-                </div>
-                <div class="day">
-                    <p>Tomorrow Thunderstorm</p>
-                    <p class="temp">35°/28°</p>
-                </div>
-                <div class="day">
-                    <p>Sun Cloudy</p>
-                    <p class="temp">35°/28°</p>
-                </div>
-            </div>
-            <div class="aqi">
-                <h2>Air Quality Index</h2>
-                <p>45 Good</p>
-                <p>Air quality is good. A perfect day for a walk!</p>
-                <div class="details">
-                    <div>
-                        <p>45.7</p>
-                        <p>PM2.5</p>
-                    </div>
-                    <div>
-                        <p>31.8</p>
-                        <p>PM10</p>
-                    </div>
-                    <div>
-                        <p>7.6</p>
-                        <p>SO₂</p>
-                    </div>
-                </div>
+        <div class="input-group">
+            <div>
+                <label>Result</label>
+                <i class="fas fa-chart-line input-icon"></i> <!-- Chart icon -->
+                <div class="result" id="resultDisplay">22.2222 °C</div>
             </div>
         </div>
+        <button class="convert-button" id="convertButton">
+            <i class="fas fa-sync-alt"></i> Convert <!-- Sync icon in the button -->
+        </button>
     </div>
+    <div class="footer">
+        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-square"></i></a> <!-- Facebook icon -->
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter-square"></i></a> <!-- Twitter (X) icon -->
+        <a href="https://www.snapchat.com" target="_blank"><i class="fab fa-snapchat-square"></i></a> <!-- Snapchat icon -->
+        <a href="https://wa.me" target="_blank"><i class="fab fa-whatsapp-square"></i></a> <!-- WhatsApp icon -->
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements from the DOM
+            const degreesInput = document.getElementById('degreesInput'); // Degrees input
+            const typeSelect = document.getElementById('typeSelect'); // Type selection dropdown
+            const resultDisplay = document.getElementById('resultDisplay'); // Result display
+            const convertButton = document.getElementById('convertButton'); // Convert button
+            const timeDisplay = document.getElementById('timeDisplay'); // Time display
 
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-        <div class="search-box">
-            <input type="text" id="locationSearch" placeholder="Enter city, state, or country">
-            <button id="searchBtn">Search</button>
-        </div>
-    </div>
+            // Function to update the time every minute
+            function updateTime() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeDisplay.textContent = `${hours}:${minutes}`; // Update time display
+            }
+
+            // Call updateTime initially and set interval to update every minute
+            updateTime(); // Initial call to set time
+            setInterval(updateTime, 60000); // Update time every minute
+
+            convertButton.addEventListener('click', function() {
+                const degrees = parseFloat(degreesInput.value); // Get the degrees value
+                const type = typeSelect.value; // Get the selected type
+
+                let result;
+
+                // Check the selected type and perform the conversion
+                if (type === 'Fahrenheit') {
+                    result = (degrees - 32) * 5 / 9; // Convert Fahrenheit to Celsius
+                    resultDisplay.textContent = result.toFixed(4) + ' °C'; // Display the result in Celsius
+                } else if (type === 'Celsius') {
+                    result = (degrees * 9 / 5) + 32; // Convert Celsius to Fahrenheit
+                    resultDisplay.textContent = result.toFixed(4) + ' °F'; // Display the result in Fahrenheit
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>
